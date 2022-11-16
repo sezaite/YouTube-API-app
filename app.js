@@ -10,6 +10,12 @@ var port = process.env.PORT || 3001;
 // MySQL Setup
 var mysql = require("mysql");
 
+// Setting out static directory
+app.use(express.static("public"));
+
+// Setting our view engine
+app.set("view engine", "ejs");
+
 function createConnection() {
     return mysql.createConnection({
         host: "localhost",
@@ -133,5 +139,9 @@ app.get("/check-database", function (req, res) {
 app.post("/save-video-data", jsonParser, function (req, res) {
     saveData(req.body, req, res);
 });
+
+app.get("/", function (req, res) {
+    res.render('index');
+})
 
 app.listen(port);
