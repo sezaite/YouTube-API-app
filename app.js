@@ -56,6 +56,10 @@ function deleteData(primaryKey, req, res, con) {
     
             return resolve();
         });
+    }).then((state) => {
+        console.log(state);
+    }).catch((err) => {
+        console.log(err);
     })
 }
 
@@ -103,6 +107,10 @@ function checkDatabase(videoId, req, res) {
                 return resolve();
             });
         })
+    }).then((state) => {
+        console.log(state);
+    }).catch((err) => {
+        console.log(err);
     })
 }
 
@@ -130,6 +138,10 @@ function saveData(data, req, res) {
                 return resolve();
             })
         })
+    }).then((state) => {
+        console.log(state);
+    }).catch((err) => {
+        console.log(err);
     })
 }
 
