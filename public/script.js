@@ -104,7 +104,7 @@ const saveData = (data) => {
         }
     }
 
-    xhr.open("POST", "http://localhost:3001/save-video-data", true);
+    xhr.open("POST", "https://surfshark-youtube-video-app/save-video-data", true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(JSON.stringify(data));
 }
@@ -218,7 +218,7 @@ const getComments = (e) => {
             }
         }
 
-        xhr.open("GET", `http://localhost:3001/check-database?id=${value}`, true);
+        xhr.open("GET", `https://surfshark-youtube-video-app/check-database?id=${value}`, true);
         xhr.send();
 
     }

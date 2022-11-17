@@ -18,10 +18,11 @@ app.set("view engine", "ejs");
 
 function createConnection() {
     return mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "",
-        database: "youtube-video-app"
+        host: "ec2-54-76-43-89.eu-west-1.compute.amazonaws.com",
+        user: "ublappxtqbcuvq",
+        port: 5432,
+        password: "c7051a972e635698f43081484087f34e8b103bc219c0ef8b341a9f1cd6e109e9",
+        database: "d4lr196t97j9se"
     })
 }
 
