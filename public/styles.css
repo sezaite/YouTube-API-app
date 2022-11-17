@@ -154,6 +154,11 @@ button {
 
 .section__info {
     max-width: 667px;
+    margin-bottom: 20px;
+}
+
+.section__info:last-of-type {
+    margin-bottom: 0;
 }
 
 form { 
