@@ -1,5 +1,8 @@
 const allInputFieldsContainer = document.querySelector(".all-inputs-container");
+const loadingSpinner = document.querySelector(".loader");
+const errorMessage = document.querySelector(".error-message");
 let currentID = 0;
+let enteredVideos = [];
 
 const addRemoveButtons = () => {
     const allRemoveButtons = Array.from(document.querySelectorAll(".button--remove"));
@@ -16,6 +19,19 @@ const addRemoveButtons = () => {
         
     }
 }
+
+const clearInputs = () => {
+    const allInputFields = allInputFieldsContainer.querySelectorAll(".video-input");
+    Array.from(allInputFields).forEach((input, index) => {
+        if (!index) {
+            input.value = "";
+            input.closest(".input-wrap").querySelector(".button--remove").style.display = "none";
+        } else {
+            input.closest(".input-wrap").remove();
+        }
+    })
+}
+
 
 const createNewInput = () => {
     const inputWrap = document.createElement('div');
@@ -140,7 +156,6 @@ const loadClient = (videoId) => {
 }
 
 const addToList = (data, isCached, videoId) => {
-    
     if (!data.error && isCached) {
         data.comments = JSON.parse(data.comments);
     }
@@ -168,24 +183,21 @@ const addToList = (data, isCached, videoId) => {
                         ${commentsList}
                     </ul>
                 `
-                // contentContainer.appendChild(videoBlock);
-                containerHeader.after(videoBlock);
-                videoBlock.scrollIntoView({behavior: "smooth", block: "start"});
-
+                loadingSpinner.after(videoBlock);
+                loadingSpinner.style.display = "none";
             } else {
                 videoBlock.innerHTML = `
                     <div class="comments__video-title">
                         <h4>Video ID: ${videoId} <span>${data.error}</span></h4>
                     </div>
                 `
-                // contentContainer.appendChild(videoBlock);
-                containerHeader.after(videoBlock);
-                videoBlock.scrollIntoView({behavior: "smooth", block: "start"});
-               
+                loadingSpinner.after(videoBlock);
+                loadingSpinner.style.display = "none";
             }
     } else {
         console.error("Error: container not found");
     }
+clearInputs();
 
 }
 
@@ -193,14 +205,27 @@ const queryYouTube = (videoId) => {
     loadClient(videoId);
 }
 
+const isAlreadyPrinted = (value) => {
+   return enteredVideos.includes(value);
+}
+
 const getComments = (e) => {
     e.preventDefault();
-
+    errorMessage.style.display = "none"
     let fieldValues = [];
     const fields = Array.from(videoIdForm.querySelectorAll("input[type='text']"));
     
     fields.forEach(field => {
-        fieldValues.push(field.value);
+        if(!isAlreadyPrinted(field.value)) {
+            fieldValues.push(field.value);
+            if (field.value !== "") {
+                enteredVideos.push(field.value)
+            }
+        } else {
+            errorMessage.style.display = "block"
+            errorMessage.innerText = "Some of the query items are already in the list. The app doesn't display duplicates."
+        }
+        
     })
 
     const checkComments = (value) => {
@@ -235,12 +260,23 @@ const getComments = (e) => {
         return element !== '';
     });
 
-    filteredFieldValues.forEach(value => {
-        checkComments(value);
-    })
+    if (filteredFieldValues.length) {
+        loadingSpinner.style.display = "block";
+        loadingSpinner.scrollIntoView({behavior: "smooth", block: "center"})
+        filteredFieldValues.forEach(value => {
+            checkComments(value);
+        })
+    } else {
+        if (errorMessage.style.display !== "block") {
+            errorMessage.style.display = "block"
+            errorMessage.innerText = "Please enter at least 1 video ID"
+        }
+    }
+
 }
 
 videoIdForm.addEventListener("submit", getComments);
 
 // Let's load the gapi client
 gapi.load("client");
+
