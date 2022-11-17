@@ -70,7 +70,6 @@ function htmlEntities(str) {
 }
 
 const formatData = (youTubeRawData) => {
-    console.log(youTubeRawData.result)
     if (youTubeRawData.result.error) {
         if (youTubeRawData.result.error.code == "404") {
 
@@ -114,7 +113,6 @@ const saveData = (data) => {
     xhr.onload = (e) => {
         if (e.target.status == "200") {
             console.log("Data was successfully cached.");
-            console.log(xhr.responseText);
         } else {
             console.log("Something went wrong...");
         }
@@ -135,8 +133,6 @@ const executeYouTubeQuery = (videoId) => {
         "videoId": videoId
     })
         .then(function(response) {
-            console.log(response);
-            // Handle the results here (response.result has the parsed body).
             const data = formatData(response);
             saveData(data);
             addToList(data, false, videoId);
@@ -225,7 +221,6 @@ const getComments = (e) => {
             errorMessage.style.display = "block"
             errorMessage.innerText = "Some of the query items are already in the list. The app doesn't display duplicates."
         }
-        
     })
 
     const checkComments = (value) => {
