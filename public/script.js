@@ -147,7 +147,8 @@ const addToList = (data, isCached, videoId) => {
     
         const contentContainer = document.querySelector(".comments");
             if( contentContainer) {
-                contentContainer.querySelector("h2").style.display = "block";
+                const containerHeader = contentContainer.querySelector("h2");
+                containerHeader.style.display = "block";
                 const videoBlock = document.createElement('div');
                 videoBlock.classList.add("comments__video-block");
                 if (!data.error) {
@@ -167,7 +168,9 @@ const addToList = (data, isCached, videoId) => {
                         ${commentsList}
                     </ul>
                 `
-                contentContainer.appendChild(videoBlock);
+                // contentContainer.appendChild(videoBlock);
+                containerHeader.after(videoBlock);
+                videoBlock.scrollIntoView({behavior: "smooth", block: "start"});
 
             } else {
                 videoBlock.innerHTML = `
@@ -175,7 +178,9 @@ const addToList = (data, isCached, videoId) => {
                         <h4>Video ID: ${videoId} <span>${data.error}</span></h4>
                     </div>
                 `
-                contentContainer.appendChild(videoBlock);
+                // contentContainer.appendChild(videoBlock);
+                containerHeader.after(videoBlock);
+                videoBlock.scrollIntoView({behavior: "smooth", block: "start"});
                
             }
     } else {
