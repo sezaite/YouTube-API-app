@@ -5,7 +5,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json()
 app.use(cors());
-var port = process.env.PORT || 3001;
+var port = process.env.PORT || 3002;
 
 // MySQL Setup
 var mysql = require("mysql");
@@ -18,12 +18,27 @@ app.set("view engine", "ejs");
 
 function createConnection() {
     return mysql.createConnection({
-        host: "ec2-54-76-43-89.eu-west-1.compute.amazonaws.com",
-        user: "ublappxtqbcuvq",
-        port: 5432,
-        password: "c7051a972e635698f43081484087f34e8b103bc219c0ef8b341a9f1cd6e109e9",
-        database: "d4lr196t97j9se"
+        host: "sql7.freemysqlhosting.net",
+        user: "sql7577891",
+        password: "sNunzSKYDY",
+        port: 3306,
+        database: "sql7577891"
     })
+
+    // return mysql.createConnection({
+    //     host: "localhost",
+    //     user: "root",
+    //     password: "",
+    //     database: "youtube-video-app"
+    // })
+
+    // Server: sql7.freemysqlhosting.net
+    // Name: sql7577891
+    // Username: sql7577891
+    // Password: sNunzSKYDY
+    // Port number: 3306
+
+
 }
 
 function isOutdated(timestamp) {
@@ -56,10 +71,6 @@ function deleteData(primaryKey, req, res, con) {
     
             return resolve();
         });
-    }).then((state) => {
-        console.log(state);
-    }).catch((err) => {
-        console.log(err);
     })
 }
 
@@ -107,10 +118,6 @@ function checkDatabase(videoId, req, res) {
                 return resolve();
             });
         })
-    }).then((state) => {
-        console.log(state);
-    }).catch((err) => {
-        console.log(err);
     })
 }
 
@@ -138,10 +145,6 @@ function saveData(data, req, res) {
                 return resolve();
             })
         })
-    }).then((state) => {
-        console.log(state);
-    }).catch((err) => {
-        console.log(err);
     })
 }
 
